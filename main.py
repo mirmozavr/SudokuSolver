@@ -9,6 +9,13 @@ board = [[5, 0, 9, 0, 0, 3, 0, 0, 4],
          [8, 0, 0, 5, 0, 0, 7, 0, 3]]
 
 
+def enter_sudoku():
+    b = []
+    for z in range(9):
+        b.append(list(map(int,input("Enter one line (example: 300400610) "))))
+    return b
+
+
 def board_print(b):
     for i in range(9):
         if not i % 3 and i != 0:
@@ -58,14 +65,21 @@ def solve(b):
                 board_print(b)
                 global solutions
                 solutions += 1
-                resp = input("Need more? (type 'no' to quit): ")
-                if resp == 'no':
-                    quit()
+                ask_if_need_more()  # comment this function to automatically show all solutions
                 b[row][col] = 0
                 return
             b[row][col] = 0
     return False
 
+
+def ask_if_need_more():
+    resp = input("Need more? (type 'no' to quit): ")
+    if resp == 'no':
+        quit()
+
+ans = input('Enter your sudoku? yes or no : ')
+if ans == 'yes':
+    board = enter_sudoku()
 
 solutions = 0
 print('Original')
