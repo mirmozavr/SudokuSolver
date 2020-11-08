@@ -9,13 +9,6 @@ board = [[5, 0, 9, 0, 0, 3, 0, 0, 4],
          [8, 0, 0, 5, 0, 0, 7, 0, 3]]
 
 
-def enter_sudoku():
-    b = []
-    for z in range(9):
-        b.append(list(map(int,input("Enter one line (example: 300400610) "))))
-    return b
-
-
 def board_print(b):
     for i in range(9):
         if not i % 3 and i != 0:
@@ -59,19 +52,24 @@ def solve(b):
     for x in range(1, 10):
         if valid(b, x, row, col):
             b[row][col] = x
-            if solve(b):
-                return True
+            solve(b)
+            if find_empty_field(b) == (None, None):
+                print('\nFound')
+                board_print(b)
+                global solutions
+                solutions += 1
+                resp = input("Need more? (type 'no' to quit): ")
+                if resp == 'no':
+                    quit()
+                b[row][col] = 0
+                return
             b[row][col] = 0
     return False
 
 
-ans = input('Enter your sudoku? yes or no : ')
-if ans == 'yes':
-    board = enter_sudoku()
-
+solutions = 0
 print('Original')
 board_print(board)
-print('__' * 16)
-print('Solved')
+print('\n'+'#' * 24)
 solve(board)
-board_print(board)
+print('\nSolutions:', solutions)
